@@ -4,18 +4,17 @@
 	<title></title>
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
-<body>
-	<div class="wrapper" ng-app="WikipediaSearch">
-		<div class="context" ng-controller="wikisearchCtrl as wikiSearch">
-			<form name="wiki" ng-submit="wikiSearch.form(wikiSearch.query)">
-				<input ng-model="wikiSearch.query" type="text" placeholder="search more bacon" />
-				<input type="submit" value="button" />
-			</form>
-		</div>
+<body ng-app="WikipediaSearch">
+	<div class="wrapper" ng-controller="wikisearchCtrl as wikiSearch">
+		<form name="wiki" ng-submit="wikiSearch.form(wikiSearch.query)">
+			<input ng-model="wikiSearch.query" type="text" placeholder="search more bacon" />
+			<input type="submit" value="button" />
+		</form>
 	</div>
 
 	<!-- ANGULAR JS -->
 	<script type="text/javascript" src="node_modules/angular/angular.min.js"></script>
 	<script type="text/javascript" src="wiki.js"></script>
+	<script type="text/javascript" src="scripts/wikiSearchCtrl.js"></script>
 </body>
 </html>
