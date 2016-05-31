@@ -1,28 +1,34 @@
 angular
 	.module('WikipediaSearch')
-	.controller('wikiSearchCtrl', wikiSearch)
-	.factory('wikiSearchService', [ '$http', '$q', wikiSearchService]);
+	.factory('wikiSearchService', [ '$http', '$q', wikiSearchService])
+	.controller('wikiSearchCtrl', ['wikiSearchService', wikiSearch]);
 
-	function wikiSearch(){
+	function wikiSearch(search){
 		var self = this;
-		this.form = function(){
-			console.log('please work');
+		this.form = function(term){
+			search(term).then(function(result){
+				self.results = result;
+			});
 			return false;
 		};
 	} 
 
 	function wikiSearchService($http, $q){
+
 		var search = function(term){
-			var deferred = $q.defer();
-			$http({
-				method: 'GET',
-				url: 'https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&callback=&srsearch=meaning&srprop=snippet|sectiontitle&srlimit=100'
-			}).then(function(result){
-				deferred.resolve(result.search);
-			},function(error){
-				alert(error);
-			});
+			var deferred = $q.defer(),
+			url = 'http://en.wikipedia.org/w/api.php?format=json&action=query&generator=search&gsrnamespace=0&gsrlimit=10&prop=pageimages|extracts&pilimit=max&exintro&explaintext&exsentences=1&exlimit=max&gsrsearch=' + term + '&callback=JSON_CALLBACK';
+
+			$http.jsonp(url)
+				.success(function(result){
+					console.log('Result = ', result);
+					deferred.resolve(result.query.pages);
+				})
+				.error(function(error){
+					console.log(error);
+				});
 			return deferred.promise;
 		};
-		return {search: search};
+
+		return search;
 	}

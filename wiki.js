@@ -1,2 +1,2 @@
-angular.module('WikipediaSearch',['$http', '$q']);
+angular.module('WikipediaSearch',[]);
 	
